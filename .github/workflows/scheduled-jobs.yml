@@ -1,0 +1,43 @@
+name: Price Snapshot - Track Price History
+
+on:
+  schedule:
+    # Run every 8 hours (0:00, 8:00, 16:00 UTC)
+    - cron: '0 0,8,16 * * *'
+  
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  price-snapshot:
+    runs-on: ubuntu-latest
+    
+    timeout-minutes: 30
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run price snapshot job
+        run: pnpm exec ts-node scripts/price-snapshot.ts
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          NODE_ENV: production

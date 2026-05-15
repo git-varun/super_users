@@ -6,16 +6,32 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "lint:fix": "eslint --fix . --ext .ts,.tsx,.js,.jsx",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf .next node_modules, bun.lockb",
+    "setup": "bun install",
+    "build:clean": "rm -rf .next",
+    "full-setup": "bun clean && bun setup"
   },
   "dependencies": {
+    "@google/genai": "^2.2.0",
+    "@sendgrid/mail": "^8.1.6",
+    "@supabase/supabase-js": "^2.105.4",
+    "@upstash/redis": "^1.38.0",
+    "ioredis": "^5.10.1",
+    "lucide-react": "^1.14.0",
+    "mime": "^4.1.0",
     "next": "16.2.5",
+    "puppeteer": "^24.43.0",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "recharts": "^3.8.1",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^20.19.41",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
